@@ -15,18 +15,23 @@ require_once('classes/Filter/Inkwell.php');
 $im = new Imagick('http://cam.westinnewyorktimessquareview.com/the-westin-new-york-at-times-square.jpg');
 
 
-// Resizes webcam image
+// Saves a timestamped version of the original image
+$im->writeImage('images/'. time() .'.jpg');
+
+
+// Resizes webcam image to wallpaper size
 $im->adaptiveResizeImage(1440, 900, true);
 
 
-// Saves temporary image
+// Saves temporary image for filtering
 $im->writeImage('temp.jpg');
 
 
-// Adds filter
+// Adds filter and saves wallpaper
 \Instafilter\Image::load('temp.jpg')
-    ->apply_filter(new Instafilter\Filter\Inkwell())
+//    ->apply_filter(new Instafilter\Filter\Inkwell())
     ->save('wallpaper.jpg');
+
 
 
 // Uploads final image to Dropbox
